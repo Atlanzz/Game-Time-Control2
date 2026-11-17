@@ -23,6 +23,15 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/api", async (req, res, next) => {
+  try {
+    await initDatabase();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 /* ---------------- Helper ---------------- */
 const wrap = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
