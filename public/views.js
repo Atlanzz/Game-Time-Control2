@@ -40,12 +40,6 @@ function renderLogin() {
       <div class="login-links">
         <button class="btn-link" data-action="mode" data-value="forgot">Lupa password?</button>
         <button class="btn-link" data-action="mode" data-value="register">Belum punya akun? Registrasi</button>
-      </div>
-
-      <div class="demo-box">
-        <p>Akun demo:</p>
-        <p>Admin: <b>admin</b> / <b>admin123</b></p>
-        <p>User: <b>player</b> / <b>player123</b></p>
       </div>`;
   }
 
