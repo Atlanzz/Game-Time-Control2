@@ -145,7 +145,7 @@ app.post(
     }
 
     if (!/^\S+@\S+\.\S+$/.test(email)) {
-      return res.status(400).json({ message: "Format email tidak valid." });
+  return res.status(400).json({ message: "Format email tidak valid." });
     }
 
     if (password.length < 6) {
