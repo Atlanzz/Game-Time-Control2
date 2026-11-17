@@ -562,14 +562,19 @@ app.use((error, req, res, next) => {
 });
 
 /* ---------------- Start ---------------- */
-initDatabase()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server berjalan di http://localhost:${PORT}`);
+
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  initDatabase()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`Server berjalan di http://localhost:${PORT}`);
+      });
+    })
+    .catch((error) => {
+      console.error("Gagal menyiapkan database:", error.message);
+      console.error("Pastikan MySQL sudah berjalan dan isi file .env sudah benar.");
+      process.exit(1);
     });
-  })
-  .catch((error) => {
-    console.error("Gagal menyiapkan database:", error.message);
-    console.error("Pastikan MySQL sudah berjalan dan isi file .env sudah benar.");
-    process.exit(1);
-  });
+}
