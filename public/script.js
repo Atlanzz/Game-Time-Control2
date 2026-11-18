@@ -15,6 +15,7 @@ const state = {
   games: [],
   history: [],
   currentUser: null,
+  theme: "dark",
 
   page: "dashboard",
   loginMode: "login",
@@ -235,6 +236,7 @@ async function handleLogin() {
 
     localStorage.setItem(TOKEN_KEY, data.token);
     state.currentUser = data.user;
+    state.theme = data.user.theme || "dark";
     state.profilePhoto = data.user.photo;
     state.page = "dashboard";
 
@@ -246,6 +248,22 @@ async function handleLogin() {
     state.currentUser = null;
     render();
     showPopup("Login Gagal", e.message, "error");
+  }
+}
+
+async function setTheme(theme) {
+  if (!["light", "dark"].includes(theme)) return;
+
+  try {
+    await api("PUT", "/api/user/theme", { theme });
+
+    state.theme = theme;
+    document.documentElement.dataset.theme = theme;
+
+    render();
+    showNotification("Tema berhasil diubah.");
+  } catch (e) {
+    showPopup("Gagal Mengubah Tema", e.message, "error");
   }
 }
 
@@ -342,10 +360,10 @@ async function navigate(target) {
   try {
     if (target === "users" && isAdmin()) {
       state.users = await api("GET", "/api/users");
-    } else if (["dashboard", "history", "statistics", "monitoring"].includes(target)) {
+    } else if (
+      ["dashboard", "history", "statistics", "monitoring"].includes(target)
+    ) {
       await refreshHistory();
-    } else {
-      return;
     }
 
     if (state.page === target) render();
@@ -701,6 +719,7 @@ document.addEventListener("click", (event) => {
 
     case "delete-user": return deleteUser(id);
     case "save-profile": return saveProfile();
+    case "set-theme": return setTheme(value);
     case "clear-history": return clearHistory();
   }
 });
@@ -743,9 +762,13 @@ document.addEventListener("keydown", (event) => {
 
 /* ---------------- Mulai ---------------- */
 async function init() {
+  document.documentElement.dataset.theme = "dark";
+
   if (localStorage.getItem(TOKEN_KEY)) {
     try {
       state.currentUser = await api("GET", "/api/me");
+      state.theme = state.currentUser.theme || "dark";
+      document.documentElement.dataset.theme = state.theme;
       state.profilePhoto = state.currentUser.photo;
       await loadData();
     } catch (e) {

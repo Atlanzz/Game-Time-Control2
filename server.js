@@ -55,6 +55,7 @@ function publicUser(row) {
     role: row.role,
     bio: row.bio || "",
     photo: row.photo || "",
+    theme: row.theme || "dark",
   };
 }
 
@@ -237,6 +238,30 @@ app.post(
   }),
 );
 
+app.put(
+  "/api/user/theme",
+  auth,
+  wrap(async (req, res) => {
+    const theme = req.body.theme;
+
+    if (!["light", "dark"].includes(theme)) {
+      return res.status(400).json({
+        message: "Tema tidak valid.",
+      });
+    }
+
+    await db().query("UPDATE users SET theme = ? WHERE id = ?", [
+      theme,
+      req.user.id,
+    ]);
+
+    res.json({
+      message: "Tema berhasil diperbarui.",
+      theme,
+    });
+  }),
+);
+
 app.post(
   "/api/auth/forgot",
   wrap(async (req, res) => {
@@ -306,7 +331,7 @@ app.put(
     );
 
     const [rows] = await db().query(
-      "SELECT id, username, name, email, role, bio, photo FROM users WHERE id = ?",
+      "SELECT id, username, name, email, role, bio, photo, theme FROM users WHERE id = ?",
       [req.user.id],
     );
 

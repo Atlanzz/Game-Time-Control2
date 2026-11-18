@@ -437,6 +437,20 @@ function pageSettings() {
   return `
     ${pageHeader("Pengaturan", "Pengaturan sistem Game Time Control.")}
     <div style="max-width:768px;display:grid;gap:20px">
+    <div class="card">
+  <h2 style="font-size:18px">Tampilan</h2>
+  <p class="muted" style="font-size:14px;margin-top:8px">
+    Pilih tema tampilan aplikasi.
+  </p>
+    <div style="display:flex;gap:10px;margin-top:16px">
+    <button class="btn btn-soft" data-action="set-theme" data-value="light">
+      Light Mode
+      </button>
+      <button class="btn btn-soft" data-action="set-theme" data-value="dark">
+      Dark Mode
+      </button>
+    </div>
+  </div>
       <div class="card">
         <h2 style="font-size:18px">Informasi Sistem</h2>
         <div class="info-row" style="margin-top:20px"><span>Nama Sistem</span><span>Game Time Control</span></div>
@@ -498,7 +512,7 @@ function renderPage() {
     case "monitoring":
       return admin ? pageMonitoring() : pageDashboard();
     case "settings":
-      return admin ? pageSettings() : pageDashboard();
+      return pageSettings();
     case "profile":
       return pageProfile();
     default:
@@ -567,6 +581,7 @@ function renderApp() {
         ["history", "History", "▤"],
         ["statistics", "Statistik", "▥"],
         ["break", "Istirahat", "☕"],
+        ["settings", "Pengaturan", "⚙"],
       ];
 
   return `
@@ -618,5 +633,9 @@ function renderApp() {
 }
 
 function render() {
+  document.documentElement.dataset.theme = state.currentUser
+    ? state.theme || "dark"
+    : "dark";
+
   $("app").innerHTML = state.currentUser ? renderApp() : renderLogin();
 }

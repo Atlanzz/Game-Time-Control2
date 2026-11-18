@@ -23,6 +23,25 @@
   --slate-soft: #f1f5f9;
 }
 
+:root[data-theme="dark"] {
+  --bg: #0b1120;
+  --card: #151e30;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --light: #64748b;
+  --border: #263449;
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --primary-soft: #172554;
+  --danger: #ef4444;
+  --danger-soft: #450a0a;
+  --success: #22c55e;
+  --success-soft: #052e16;
+  --warning: #eab308;
+  --warning-soft: #422006;
+  --slate-soft: #1e293b;
+}
+
 body {
   font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
   background: var(--bg);
@@ -58,8 +77,8 @@ textarea {
 
 .input {
   width: 100%;
-  background: #fff;
-  border: 1px solid #cbd5e1;
+  background: var(--card);
+  border: 1px solid var(--border);
   color: var(--text);
   border-radius: 12px;
   padding: 12px 16px;
@@ -381,7 +400,7 @@ label.lbl {
   top: 0;
   bottom: 0;
   width: 256px;
-  background: #fff;
+  background: var(--card);
   border-right: 1px solid var(--border);
   z-index: 40;
   transition: transform 0.25s;
@@ -511,7 +530,8 @@ label.lbl {
 
 .topbar {
   height: 80px;
-  background: #fff;
+  background: var(--card);
+  color: var(--text);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -608,7 +628,7 @@ main {
 
 /* ---------- Game ---------- */
 .game-card {
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
@@ -719,7 +739,7 @@ main {
 
 /* ---------- Tabel ---------- */
 .table-wrap {
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
@@ -893,7 +913,7 @@ input[type="range"] {
 }
 
 .toast-box {
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
   border-radius: 16px;
@@ -912,7 +932,7 @@ input[type="range"] {
 .toast-box p {
   font-size: 14px;
   line-height: 1.5;
-  color: #334155;
+  color: var(--text);
 }
 
 .toast-box button {
